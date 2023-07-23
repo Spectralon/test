@@ -5,6 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="next-head-count" content="2">
+  <!-- VK Bridge SDK -->
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="../ChatGPT/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../ChatGPT/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../ChatGPT/images/favicon-16x16.png">
@@ -27,6 +29,21 @@
 
 <body>
 	<iframe src="https://lexica.art/" style="width: 100%;height: 100%;position: fixed;left: -2px;top: -2px;"></iframe>
+	<script>
+	const bridge = vkBridge;
+	vkBridge
+		.send("VKWebAppInit")
+		.then((data) => {
+			if (data.result) {
+				bridge.data = JSON.parse('{"' + decodeURI(window.location.href).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+			} else {
+				console.log("Ошибка инициализации vkBridge");
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+	</script>
 </body>
 
 </html>
